@@ -7,10 +7,8 @@
  * Author URL: https://github.com/pbrocks/
  */
 
-
 defined( 'ABSPATH' ) || die( 'File cannot be accessed directly' );
 
-include 'help-screens.php';
 if ( is_admin() ) {
 	new PMPro_Member_List_Table();
 }
@@ -43,7 +41,7 @@ class PMPro_Member_List_Table {
 		$option = 'per_page';
 		$args = array(
 			'label' => 'Subscribers',
-			'default' => 17,
+			'default' => 10,
 			'option' => 'members_per_page',
 		);
 		add_screen_option( $option, $args );
@@ -57,8 +55,8 @@ class PMPro_Member_List_Table {
 		$screen->add_help_tab(
 			array(
 				'id'      => 'reveal_slide_reordering_help_tab',
-				'title'   => 'Reveal Slide Reordering',
-				'content' => '<p>' . __( ' To reposition an item, simply drag and drop the row by "clicking and holding" it anywhere (outside of the links and form controls) and moving it to its new position.', 'reveal-slide-reordering' ) . '</p>',
+				'title'   => __( 'PMPro Member List', 'pmpro-sortable-members' ),
+				'content' => '<p>' . __( ' To reposition an item, simply drag and drop the row by "clicking and holding" it anywhere (outside of the links and form controls) and moving it to its new position.', 'pmpro-sortable-members' ) . '</p>',
 			)
 		);
 	}
@@ -67,28 +65,28 @@ class PMPro_Member_List_Table {
 		$screen->add_help_tab(
 			array(
 				'id'      => 'sortable_overview',
-				'title'   => 'Sortable Overview',
-				'content' => '<p>Overview of your plugin or theme here</p>',
+				'title'   => __( 'Sortable Overview', 'pmpro-sortable-members' ),
+				'content' => '<p>' . __( 'Overview of your plugin or theme here', 'pmpro-sortable-members' ) . '</p>',
 			)
 		);
 
 		$screen->add_help_tab(
 			array(
 				'id'      => 'sortable_faq',
-				'title'   => 'Sortable FAQ',
-				'content' => '<p>Frequently asked questions and their answers here</p>',
+				'title'   => __( 'Sortable FAQ', 'pmpro-sortable-members' ),
+				'content' => '<p>' . __( 'Frequently asked questions and their answers here', 'pmpro-sortable-members' ) . '</p>',
 			)
 		);
 
 		$screen->add_help_tab(
 			array(
 				'id'      => 'sortable_support',
-				'title'   => 'Sortable Support',
-				'content' => '<p>For support, visit the <a href="https://www.paidmembershipspro.com/forums/forum/members-forum/" target="_blank">Support Forums</a></p>',
+				'title'   => __( 'Sortable Support', 'pmpro-sortable-members' ),
+				'content' => '<p>' . __( 'For support, visit the <a href="https://www.paidmembershipspro.com/forums/forum/members-forum/" target="_blank">Support Forums</a>', 'pmpro-sortable-members' ) . '</p>',
 			)
 		);
 
-		$screen->set_help_sidebar( '<p>This is the content you will be adding to the sidebar.</p>' );
+		$screen->set_help_sidebar( '<p>' . __( 'This is the content you will be adding to the sidebar.', 'pmpro-sortable-members' ) . '</p>' );
 	}
 
 	/**
@@ -131,7 +129,7 @@ class PMPro_Member_List_Table {
 			width: 8%;
 		}
 		</style>
-	<?php
+		<?php
 	}
 
 }
