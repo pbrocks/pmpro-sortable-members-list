@@ -10,6 +10,7 @@
 
 defined( 'ABSPATH' ) || die( 'File cannot be accessed directly' );
 
+include 'help-screens.php';
 if ( is_admin() ) {
 	new PMPro_Member_List_Table();
 }
@@ -25,15 +26,16 @@ class PMPro_Member_List_Table {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_pmpro_sortable_list_page' ) );
 		add_action( 'admin_head', array( $this, 'add_admin_css' ) );
+		// add_action( 'admin_menu', array( $this, 'add_help_menu' ) );
 	}
 
 	/**
 	 * Menu item will allow us to load the page to display the table
 	 */
 	public function add_pmpro_sortable_list_page() {
-		// add_menu_page( 'PMPro List Table', 'PMPro List Table', 'manage_options', 'pmpro-list-table.php', array( $this, 'list_table_page' ) );
-		$hook = add_submenu_page( 'pmpro-membershiplevels', 'Sortable Members', 'Sortable Members', 'manage_options', 'pmpro-list-table.php', array( $this, 'list_table_page' ) );
-		add_action( "load-$hook", array( $this, 'member_screen_options' ) );
+		$hook_suffix = add_submenu_page( 'pmpro-membershiplevels', 'Sortable Members', 'Sortable Members', 'manage_options', 'pmpro-list-table.php', array( $this, 'list_table_page' ) );
+		add_action( "load-$hook_suffix", array( $this, 'member_screen_options' ) );
+		add_action( "load-$hook_suffix", array( $this, 'sortable_help_tabs' ) );
 	}
 
 	public function member_screen_options() {
@@ -41,11 +43,52 @@ class PMPro_Member_List_Table {
 		$option = 'per_page';
 		$args = array(
 			'label' => 'Subscribers',
-			'default' => 10,
+			'default' => 17,
 			'option' => 'members_per_page',
 		);
 		add_screen_option( $option, $args );
 		$pmpro_sortable_list = new PMPro_Member_List();
+	}
+	public function add_help_menu() {
+		$screen = get_current_screen();
+		if ( $screen->id != 'pmpro-list-table.php' ) {
+			return;
+		}
+		$screen->add_help_tab(
+			array(
+				'id'      => 'reveal_slide_reordering_help_tab',
+				'title'   => 'Reveal Slide Reordering',
+				'content' => '<p>' . __( ' To reposition an item, simply drag and drop the row by "clicking and holding" it anywhere (outside of the links and form controls) and moving it to its new position.', 'reveal-slide-reordering' ) . '</p>',
+			)
+		);
+	}
+	public function sortable_help_tabs() {
+		$screen = get_current_screen();
+		$screen->add_help_tab(
+			array(
+				'id'      => 'sortable_overview',
+				'title'   => 'Sortable Overview',
+				'content' => '<p>Overview of your plugin or theme here</p>',
+			)
+		);
+
+		$screen->add_help_tab(
+			array(
+				'id'      => 'sortable_faq',
+				'title'   => 'Sortable FAQ',
+				'content' => '<p>Frequently asked questions and their answers here</p>',
+			)
+		);
+
+		$screen->add_help_tab(
+			array(
+				'id'      => 'sortable_support',
+				'title'   => 'Sortable Support',
+				'content' => '<p>For support, visit the <a href="https://www.paidmembershipspro.com/forums/forum/members-forum/" target="_blank">Support Forums</a></p>',
+			)
+		);
+
+		$screen->set_help_sidebar( '<p>This is the content you will be adding to the sidebar.</p>' );
 	}
 
 	/**
@@ -87,25 +130,6 @@ class PMPro_Member_List_Table {
 			text-align: center;
 			width: 8%;
 		}
-/*		.wp-list-table .title.column-title.has-row-actions.column-primary.page-title {
-			width: 35%;
-		}
-		.manage-column.column-title.column-primary {
-			width: 35%;
-		}
-		.wp-list-table .ui-sortable tr:hover {
-			background: rgba(22,244,25,.2);
-		}
-		td.reorder.column-reorder > span {
-			color: #bbb;
-			transition: all .3s ease-in-out;
-			padding: 1rem;
-		}
-		tr:hover td.reorder.column-reorder > span {
-			color: green;
-			transform: scale(1.5);
-		}
-*/
 		</style>
 	<?php
 	}
@@ -146,9 +170,9 @@ class PMPro_Member_List extends WP_List_Table {
 		$sortable = $this->get_sortable_columns();
 
 		$data = $this->sql_table_data();
-		usort( $data, array( &$this, 'sort_data' ) );
+		usort( $data, array( $this, 'sort_data' ) );
 
-		$per_page = $this->get_items_per_page( 'members_per_page', 5 );
+		$per_page = $this->get_items_per_page( 'members_per_page', 15 );
 		$currentPage = $this->get_pagenum();
 		$total_items = count( $data );
 
