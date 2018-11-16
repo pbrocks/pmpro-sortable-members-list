@@ -24,7 +24,6 @@ class PMPro_Member_List_Table {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_pmpro_sortable_list_page' ) );
 		add_action( 'admin_head', array( $this, 'add_admin_css' ) );
-		// add_action( 'admin_menu', array( $this, 'add_help_menu' ) );
 	}
 
 	/**
@@ -47,19 +46,7 @@ class PMPro_Member_List_Table {
 		add_screen_option( $option, $args );
 		$pmpro_sortable_list = new PMPro_Member_List();
 	}
-	public function add_help_menu() {
-		$screen = get_current_screen();
-		if ( $screen->id != 'pmpro-list-table.php' ) {
-			return;
-		}
-		$screen->add_help_tab(
-			array(
-				'id'      => 'reveal_slide_reordering_help_tab',
-				'title'   => __( 'PMPro Member List', 'pmpro-sortable-members' ),
-				'content' => '<p>' . __( ' To reposition an item, simply drag and drop the row by "clicking and holding" it anywhere (outside of the links and form controls) and moving it to its new position.', 'pmpro-sortable-members' ) . '</p>',
-			)
-		);
-	}
+	
 	public function sortable_help_tabs() {
 		$screen = get_current_screen();
 		$screen->add_help_tab(
