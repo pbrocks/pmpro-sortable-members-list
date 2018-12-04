@@ -1,14 +1,9 @@
 <?php
-/**
- * Plugin Name: PMPro Sortable Member List
- * Plugin URL: https://github.com/pbrocks/pmpro-sortable-members-list
- * Description: An example of using native WP admin tables by extending the WP_List_Table class to display data in WP dashboard
- * Author: pbrocks
- * Author URL: https://github.com/pbrocks/
- */
 
 defined( 'ABSPATH' ) || die( 'File cannot be accessed directly' );
 /**
+ * Plugin Nam PMPro Members List Table
+ *
  * Class for displaying registered WordPress Members
  * in a WordPress-like Admin Table with row actions to
  * perform user meta opeations
