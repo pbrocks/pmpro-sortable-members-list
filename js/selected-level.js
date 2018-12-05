@@ -14,7 +14,9 @@ jQuery(document).ready(function($) {
 				'selectednonce' : selected_dash_object.selected_dash_nonce,
 			},
 			success:function(data) {
-				$( '#return-selected' ).html(data);
+				//$( '#return-selected' ).html(data);
+				user_table = data.substring(data.indexOf('<table'), data.indexOf('</table>') + 8);
+				$( '#pbrx-ajax-replace table' ).html(user_table);
 				// if ( '' !== $('#dropdown-levels').val() ) {
 				// 	$('#return-levels').html(' You selected Level ' + $('#dropdown-levels').val
 				// 		());
