@@ -571,7 +571,9 @@ function pmpro_load_dev_member_list_table() {
 						<input type="hidden" name="page" value="pmpro-members-list-table" />
 						<?php
 							$dev_member_list_table->search_box( __( 'Find Member', 'paid-memberships-pro' ), 'pbrx-user-find' );
+							echo '<div id="pbrx-ajax-replace">';
 							$dev_member_list_table->display();
+							echo '</div>'
 						?>
 				</form>
 			</div>			
@@ -623,18 +625,13 @@ if ( empty ( $per_page ) || $per_page < 1 ) {
 
 function run_listdash_ajax_function() {
 	global $dev_member_list_table;
-	$return_data           = $_GET;
-	$search_key            = $return_data['chosenlevel'];
+	$return_data = $_REQUEST;
+	$search_key = $return_data['filter'];
+	$_REQUEST['s'] = $search_key;
 	$dev_member_list_table = new Dash_Members_List_Table();
 	$dev_member_list_table->prepare_items();
-	$team = $dev_member_list_table->filter_table_data( $dev_member_list_table->items, $search_key );
-	echo '<pre>';
-	print_r( $return_data );
-	echo '</pre>';
-	echo '<h2 style="color:tomato;">' . $search_key . '</h2>';
-	echo '<pre>';
-	print_r( $team );
-	echo '</pre>';
+	//$team = $dev_member_list_table->filter_table_data( $dev_member_list_table->items, $search_key );
+	$dev_member_list_table->display();
 	exit();
 }
 
@@ -741,10 +738,14 @@ function tabbed_diagnostic_dash_message() {
 
 function pmpro_add_admin_dash_function() {
 	$return_data = $_POST;
+	if ( ! ( isset( $return_data['action'] ) && $return_data['action'] == 'selected_dash_request' ) ) {
+		exit();
+	}
+	
 	add_query_arg( 's', $return_data['filter'] );
 
 	echo '<pre>';
-	print_r( $return_data );
+	run_listdash_ajax_function();
 	echo '</pre>';
 
 	exit();
